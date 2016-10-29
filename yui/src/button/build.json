@@ -1,0 +1,10 @@
+{
+    "name": "moodle-atto_syntaxhighlighter-button",
+    "builds": {
+        "moodle-atto_syntaxhighlighter-button": {
+            "jsfiles": [
+                "button.js"
+            ]
+        }
+    }
+}
