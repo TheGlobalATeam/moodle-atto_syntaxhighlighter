@@ -25,5 +25,5 @@
  defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2016102901;
-$plugin->requires = 2016082500.01;
+$plugin->requires = 2013040500;
 $plugin->component = 'atto_syntaxhighlighter';
