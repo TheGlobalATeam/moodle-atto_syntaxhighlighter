@@ -25,6 +25,67 @@
   * @module moodle-atto_syntaxhighlighter-button
   */
 
+var logic = {
+    initializer: function() {
+        this.addButton({
+            icon: 'e/source_code',
+            callback: this._toggleSyntaxHighliting
+        });
+    },
+    _toggleSyntaxHighliting: function(event) {
+        this.set('isHighlightingEnabled', !this.get('isHighlightingEnabled'));
+        this._showHTML();
+    },
+    _showHTML: function() {
+
+        var phpcode = '<?php'
+                    + ' $variable = 100;'
+                    + '?>';
+
+        var html = '<link rel="stylesheet" href="{{style}}">'
+                 + '<script src="{{lib}}"></script>'
+                 + '<pre><code class="php">'
+                 + '{{code}}'
+                 + '</code></pre>';
+
+        var template = Y.Handlebars.compile(html);
+        var test = template({
+            style: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css',
+            lib: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js',
+            code: phpcode
+        });
+
+        // NOTE(thomas): How to insert this node into the texarea?
+        var content = Y.Node.create(test);
+
+        // NOTE(thomas):
+        // Can listen on valuechanges on the textarea,
+        // Might come in handy?
+        var host = this.get('host');
+        host.editor.on('valuechange', function() {
+            console.log('change');
+        });
+
+        // NOTE(thomas) Make the syntax button toggable.
+        if (!this.get('isHighlightingEnabled')) {
+            this.unHighlightButtons('html');
+            host.enablePlugins();
+        } else {
+            this.highlightButtons('html');
+            host.disablePlugins();
+            host.enablePlugins(this.name);
+        }
+    }
+};
+
+var data = {
+    ATTRS: {
+        isHighlightingEnabled: {
+            value: false
+        }
+    }
+};
+
  /**
   * Atto text editor syntax highlighter plugin.
   *
@@ -33,11 +94,5 @@
   * @extends M.editor_atto.EditorPlugin
   */
 
-Y.namespace('M.atto_syntaxhighlighter').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
-    initializer: function() {
-        this.addBasicButton({
-            exec: 'strikeThrough',
-            icon: 'e/strikethrough'
-        });
-    }
-});
+Y.namespace('M.atto_syntaxhighlighter').Button =
+    Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], logic, data);
