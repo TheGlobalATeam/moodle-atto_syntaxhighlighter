@@ -13,5 +13,6 @@ One might get LF vs CLRF errors, either make eslint ignore it, or use some tool 
 On success a build directory should be located under `syntaxhighlighter\yui\` with 3 files.
 
 5. Go to Moodle and install the new plugin. This can be done from `Site administration > Notification`.
-5. In Moodle go to `Site administration > Plugins > Text editors > Atto HTML editor > Atto toolbar settings`. From here, make sure the plugin named `Syntax Highlighter` is in the list of Atto plugins with the toolbar config string `syntaxhighlighter`. In the Toolbar config textarea add `syntaxhighlighter` to the `other` entry like so: `other = html, syntaxhighlighter`.
-Save changes and find somewhere in Moodle where the Atto editor is provided; expand for more buttons and a new button should be beside the HTML (<>) button, equal to the 'strikethrough' one.
+6. Check if the highlight.js library is loaded into Moodle by going to `Site administration > Development > Third party libraries`, and locate `highlight.js`.
+7. In Moodle go to `Site administration > Plugins > Text editors > Atto HTML editor > Atto toolbar settings`. From here, make sure the plugin named `Syntax Highlighter` is in the list of Atto plugins with the toolbar config string `syntaxhighlighter`. In the Toolbar config textarea add `syntaxhighlighter` to the `other` entry like so: `other = html, syntaxhighlighter`.
+Save changes and find somewhere in Moodle where the Atto editor is provided; expand for more buttons and a new button should be beside the HTML (<>) button, equal to the 'html' one.
