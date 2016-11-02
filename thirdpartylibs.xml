@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<libraries>
+    <library>
+        <location>highlight</location>
+        <name>highlight.js</name>
+        <license>BSD-3-Clause</license>
+        <version>9.8.0</version>
+        <licenseversion></licenseversion>
+    </library>
+</libraries>

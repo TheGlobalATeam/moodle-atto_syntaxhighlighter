@@ -2,9 +2,15 @@
     "name": "moodle-atto_syntaxhighlighter-button",
     "builds": {
         "moodle-atto_syntaxhighlighter-button": {
+            "prependfiles": [
+                "highlight.pack.js"
+            ],
             "jsfiles": [
                 "button.js"
             ]
         }
+    },
+    "shifter": {
+        "lint": false
     }
 }
