@@ -2,7 +2,10 @@
 Highlight code snippets in atto, a text editor in Moodle.
 
 ## Setup
-1. Clone this repo under `moodle\lib\editor\atto\plugins\`, and rename the directory to `syntaxhighlighter`.
+1.  Clone the repo in atto plugins folder:
+```
+$ git clone https://github.com/TheGlobalATeam/moodle-atto_syntaxhighlighter.git /path/to/moodle/lib/editor/atto/ligins/syntaxhighlighter
+```
 
 In order to get the button appear in the atto toolbar, first you need to build the plugin (generate minified files). This is done by shifter through Grunt. To do this, go to the Moodles root file directory in a command prompt (where the Grunfile.js is located) and
 
@@ -10,7 +13,7 @@ In order to get the button appear in the atto toolbar, first you need to build t
 3. Typing `grunt` and hit enter to start minification and compilation of Moodle files.
 One might get LF vs CLRF errors, either make eslint ignore it, or use some tool to fix them.
 4. To only run shifter type `grunt shifter` and it will first check for eslint errors, if any errors appear run `grunt eslint:yui` to see where they come from and what they are.
-On success a build directory should be located under `syntaxhighlighter\yui\` with 3 files.
+On success a build directory should be located under `syntaxhighlighter/yui/` with 3 files.
 
 5. Go to Moodle and install the new plugin. This can be done from `Site administration > Notification`.
 6. Check if the highlight.js library is loaded into Moodle by going to `Site administration > Development > Third party libraries`, and locate `highlight.js`.
