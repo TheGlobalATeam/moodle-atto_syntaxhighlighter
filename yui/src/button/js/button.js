@@ -32,12 +32,13 @@ var SELECTORS = {
     CODEAREA: '.atto_syntaxhighlighter_codearea'
 };
 
+// id="{{elementid}}_atto_syntaxhighlighter_codearea"
+
 var TEMPLATE = '<form class="atto_form">' +
                     '<label for="{{elementid}}_atto_syntaxhighlighter_codearea">Some label</label>' +
-                    '<textarea class="fullwidth code {{style.CODEAREA}}" type="text"' +
-                              'id="{{elementid}}_atto_syntaxhighlighter_codearea"/><br>' +
+                    '<textarea class="fullwidth code {{style.CODEAREA}}" rows="8" cols="32"></textarea><br>' +
                     '<div class="mdl-align">' +
-                        '<br/>' +
+                        '<br>' +
                         '<button type="submit" class="submit">Add codesnippet</button>' +
                     '</div>' +
                 '</form>';
@@ -65,7 +66,6 @@ var logic = {
         });
 
         dialogue.set('bodyContent', this._getDialogueContent());
-        //this._resolveAnchors();
         dialogue.show();
     },
 
@@ -76,7 +76,6 @@ var logic = {
         }).hide();
 
         var input = this._content.one('.code');
-
         var value = input.get('value');
 
         this._wrapCode(value);
@@ -86,20 +85,18 @@ var logic = {
         var host = this.get('host');
         host.setSelection(this._currentSelection);
 
-        var collapsed = (this._currentSelection[0].collapsed);
         var selectednode;
-
+        var collapsed = (this._currentSelection[0].collapsed);
         if (collapsed) {
             var codenode = Y.Node.create('<code>' + code + '</code>');
+
             codenode.setAttribute('class', 'PHP');
-            var prenode = Y.Node.create('<pre>' + codenode + '</pre>');
+            var prenode = Y.Node.create('<pre>' + codenode.get('outerHTML') + '</pre>');
 
             selectednode = host.insertContentAtFocusPoint(prenode.get('outerHTML'));
             host.setSelection(host.getSelectionFromNode(selectednode));
-        } else {
-            document.execCommand();
-            selectednode = host.getSelectionParentNode();
         }
+
         if (!selectednode) {
             return;
         }
@@ -111,8 +108,10 @@ var logic = {
             component: COMPONENTNAME,
             style: STYLE
         }));
-        //console.log(this._content);
-        //this._content.one('.submit').on('click', this._setCode, this);
+
+        this._content.one('.submit').on('click', this._setCode, this);
+
+        return this._content;
     }
 };
 
