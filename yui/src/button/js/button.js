@@ -32,10 +32,17 @@ var SELECTORS = {
     CODEAREA: '.atto_syntaxhighlighter_codearea'
 };
 
-// id="{{elementid}}_atto_syntaxhighlighter_codearea"
-
 var TEMPLATE = '<form class="atto_form">' +
                     '<label for="{{elementid}}_atto_syntaxhighlighter_codearea">Some label</label>' +
+                    '<select class="language">' +
+                        '<option value="c">C</option>' +
+                        '<option value="cpp">C++</option>' +
+                        '<option value="html">HTML</option>' +
+                        '<option value="javascript">Javascript</option>' +
+                        '<option value="php">PHP</option>' +
+                        '<option value="python">Python</option>' +
+                        '<option value="sql">SQL</option>' +
+                    '</select>' +
                     '<textarea class="fullwidth code {{style.CODEAREA}}" rows="8" cols="32"></textarea><br>' +
                     '<div class="mdl-align">' +
                         '<br>' +
@@ -44,6 +51,7 @@ var TEMPLATE = '<form class="atto_form">' +
                 '</form>';
 
 var logic = {
+    _selectedLanguage: null,
     _currentSelection: null,
     _content: null,
     initializer: function() {
@@ -90,7 +98,7 @@ var logic = {
         if (collapsed) {
             var codenode = Y.Node.create('<code>' + code + '</code>');
 
-            codenode.setAttribute('class', 'PHP');
+            codenode.setAttribute('class', this._selectedLanguage);
             var prenode = Y.Node.create('<pre>' + codenode.get('outerHTML') + '</pre>');
 
             selectednode = host.insertContentAtFocusPoint(prenode.get('outerHTML'));
@@ -108,6 +116,10 @@ var logic = {
             component: COMPONENTNAME,
             style: STYLE
         }));
+
+        this._content.one('.language').on('valuechange', function(event) {
+            this._selectedLanguage = event.newVal;
+        }, this);
 
         this._content.one('.submit').on('click', this._setCode, this);
 
