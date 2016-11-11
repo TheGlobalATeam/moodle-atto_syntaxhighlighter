@@ -24,6 +24,7 @@
  /**
   * @module moodle-atto_syntaxhighlighter-button
   */
+
 var COMPONENTNAME = 'atto_syntaxhighlighter';
 var STYLE = {
     CODEAREA: 'atto_syntaxhighlighter_codearea'
@@ -31,7 +32,6 @@ var STYLE = {
 var SELECTORS = {
     CODEAREA: '.atto_syntaxhighlighter_codearea'
 };
-
 var TEMPLATE = '<form class="atto_form">' +
                     '<label for="{{elementid}}_atto_syntaxhighlighter_codearea">Some label</label>' +
                     '<select class="language">' +
@@ -50,9 +50,38 @@ var TEMPLATE = '<form class="atto_form">' +
                     '</div>' +
                 '</form>';
 
+/**
+ * The object containign all logic and info for this plugin.
+ */
 var logic = {
+
+    /**
+     * The selected programming language to syntax highlight.
+     *
+     * @property _selectedLanguage
+     * @type String
+     * @default null
+     * @private
+     */
     _selectedLanguage: null,
+
+    /**
+     * The selection object returned by the browser.
+     *
+     * @property _currentSelection
+     * @type Range
+     * @default null
+     * @private
+     */
     _currentSelection: null,
+
+    /**
+     * A reference to the dialogue content.
+     *
+     * @property _content
+     * @type Node
+     * @private
+     */
     _content: null,
     initializer: function() {
         this.addButton({
@@ -61,6 +90,12 @@ var logic = {
         });
     },
 
+    /**
+     * Display the syntax-highlighter editor.
+     *
+     * @method _displayDialogue
+     * @private
+     */
     _displayDialogue: function() {
         this._currentSelection = this.get('host').getSelection();
         if (this._currentSelection === false) {
@@ -77,7 +112,14 @@ var logic = {
         dialogue.show();
     },
 
-    _setCode: function(event) {
+    /**
+     * Display the syntax-highlighter editor.
+     * The callback from clicking the submit button.
+     *
+     * @method _submitCodeForHighlighting
+     * @private
+     */
+    _submitCodeForHighlighting: function(event) {
         event.preventDefault();
         this.getDialogue({
             focusAfterHide: null
@@ -88,6 +130,14 @@ var logic = {
 
         this._wrapCode(value);
     },
+
+    /**
+     * Wrap the input with the <pre> anc <code> elements
+     * as required by Highlight.js library.
+     *
+     * @method _wrapCode
+     * @private
+     */
     _wrapCode: function(code) {
         this.editor.focus();
         var host = this.get('host');
@@ -110,6 +160,14 @@ var logic = {
         }
         return selectednode;
     },
+
+    /**
+     * Return the dialogue content with attached events.
+     *
+     * @method _wrapCode
+     * @return {Node}
+     * @private
+     */
     _getDialogueContent: function() {
         var template = Y.Handlebars.compile(TEMPLATE);
         this._content = Y.Node.create(template({
@@ -121,7 +179,7 @@ var logic = {
             this._selectedLanguage = event.newVal;
         }, this);
 
-        this._content.one('.submit').on('click', this._setCode, this);
+        this._content.one('.submit').on('click', this._submitCodeForHighlighting, this);
 
         return this._content;
     }
