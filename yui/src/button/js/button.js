@@ -43,7 +43,7 @@ var TEMPLATE = '<form class="atto_form">' +
                         '<option value="python">Python</option>' +
                         '<option value="sql">SQL</option>' +
                     '</select>' +
-                    '<textarea class="fullwidth code {{style.CODEAREA}}" rows="8" cols="32"></textarea><br>' +
+                    '<textarea class="fullwidth code {{style.CODEAREA}}" rows="12"></textarea><br>' +
                     '<div class="mdl-align">' +
                         '<br>' +
                         '<button type="submit" class="submit">Add codesnippet</button>' +
