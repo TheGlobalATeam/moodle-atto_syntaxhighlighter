@@ -53,6 +53,7 @@ var TEMPLATE = '<form class="atto_form">' +
 /**
  * The object containign all logic and info for this plugin.
  */
+
 var logic = {
 
     /**
@@ -87,6 +88,17 @@ var logic = {
         this.addButton({
             icon: 'e/source_code',
             callback: this._displayDialogue
+        });
+    },
+
+    _escapeHTML: function(html) {
+        var tagsToReplace = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;'
+        };
+        return html.replace(/[&<>]/g, function(tag) {
+            return tagsToReplace[tag] || tag;
         });
     },
 
@@ -146,6 +158,11 @@ var logic = {
         var selectednode;
         var collapsed = (this._currentSelection[0].collapsed);
         if (collapsed) {
+
+            if (this._selectedLanguage === 'html') {
+                code = this._escapeHTML(code);
+            }
+
             var codenode = Y.Node.create('<code>' + code + '</code>');
 
             codenode.setAttribute('class', this._selectedLanguage);
