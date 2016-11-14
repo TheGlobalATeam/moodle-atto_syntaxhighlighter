@@ -15,15 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * String for atto plugin 'atto_syntaxhighlighter', language 'no'
+ * Atto text editor integration version file.
  *
- * @package     atto_syntaxhighlighter
- * @copyright   2016 The Global A Team
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    atto_syntaxhighlighter
+ * @copyright  2015 The Global A-Team
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Syntax Highlighter - Norsk';
-$string['dialogboxtitle'] = 'Kode visning';
-$string['firstparagraph'] = 'Legg til kode-bit og velg språket for koden';
-$string['submitbutton'] = 'Sett inn kode';
+//Might need this line;  defined('MOODLE_INTERNAL') || die();  
+
+/**
+ * Initialise the js strings required for this module.
+ */
+function atto_syntaxhighlighter_strings_for_js() {
+    global $PAGE;
+
+    $PAGE->requires->strings_for_js('dialogboxtitle', 'firstparagraph', 'submitbutton');
+}
+
 
