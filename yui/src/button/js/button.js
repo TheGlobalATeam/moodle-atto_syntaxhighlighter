@@ -25,6 +25,39 @@
   * @module moodle-atto_syntaxhighlighter-button
   */
 
+function getScript(src, callback) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    s.onreadystatechange = s.onload = function() {
+        if (!callback.done && (!s.readyState || /loaded|complete/.test(s.readyState))) {
+            callback.done = true;
+            callback();
+        }
+    };
+    document.querySelector('head').appendChild(s);
+}
+
+// TODO(thomas):
+// Does not work, as YUI escapes html tags.
+// Need to find the proper way of inserting the list with YUI.
+function appendLanguages(languages) {
+    var options = '';
+    languages.forEach(function(language) {
+        options += '<option value="' + language + '">' + language + '</option>';
+    });
+    return options;
+}
+
+// TODO(thomas):
+//  Ask Moodle experts about how to proberly
+//  load third party libs into an atto plugin!
+var OPTIONS = '';
+getScript('//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js', function() {
+    var languages = hljs.listLanguages();
+    OPTIONS = appendLanguages(languages);
+});
+
 var COMPONENTNAME = 'atto_syntaxhighlighter';
 var STYLE = {
     CODEAREA: 'atto_syntaxhighlighter_codearea'
@@ -35,13 +68,26 @@ var SELECTORS = {
 var TEMPLATE = '<form class="atto_form">' +
                     '<label for="{{elementid}}_atto_syntaxhighlighter_codearea">Some label</label>' +
                     '<select class="language">' +
-                        '<option value="c">C</option>' +
-                        '<option value="cpp">C++</option>' +
-                        '<option value="html">HTML</option>' +
-                        '<option value="javascript">Javascript</option>' +
-                        '<option value="php">PHP</option>' +
-                        '<option value="python">Python</option>' +
-                        '<option value="sql">SQL</option>' +
+                        '<option value="autoDetect">Auto Detect</option>' +
+                        '<option value="apache">apache</option>' +
+                        '<option value="bash">bash</option>' +
+                        '<option value="coffeescript">coffeescript</option>' +
+                        '<option value="cpp">cpp</option>' +
+                        '<option value="cs">cs</option>' +
+                        '<option value="css">css</option>' +
+                        '<option value="diff">diff</option>' +
+                        '<option value="javascript">javascript</option>' +
+                        '<option value="json">json</option>' +
+                        '<option value="makefile">makefile</option>' +
+                        '<option value="xml">xml</option>' +
+                        '<option value="markdown">markdown</option>' +
+                        '<option value="nginx">nginx</option>' +
+                        '<option value="objectivec">objectivec</option>' +
+                        '<option value="perl">perl</option>' +
+                        '<option value="php">php</option>' +
+                        '<option value="python">python</option>' +
+                        '<option value="python">ruby</option>' +
+                        '<option value="python">sql</option>' +
                     '</select>' +
                     '<textarea class="fullwidth code {{style.CODEAREA}}" rows="12"></textarea><br>' +
                     '<div class="mdl-align">' +
@@ -64,7 +110,7 @@ var logic = {
      * @default null
      * @private
      */
-    _selectedLanguage: null,
+    _selectedLanguage: 'autoDetect',
 
     /**
      * The selection object returned by the browser.
@@ -165,7 +211,9 @@ var logic = {
 
             var codenode = Y.Node.create('<code>' + code + '</code>');
 
-            codenode.setAttribute('class', this._selectedLanguage);
+            if (this._selectedLanguage !== 'autoDetect') {
+                codenode.setAttribute('class', this._selectedLanguage);
+            }
             var prenode = Y.Node.create('<pre>' + codenode.get('outerHTML') + '</pre>');
 
             selectednode = host.insertContentAtFocusPoint(prenode.get('outerHTML'));
@@ -186,6 +234,7 @@ var logic = {
      * @private
      */
     _getDialogueContent: function() {
+
         var template = Y.Handlebars.compile(TEMPLATE);
         this._content = Y.Node.create(template({
             component: COMPONENTNAME,
