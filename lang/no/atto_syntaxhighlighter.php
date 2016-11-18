@@ -24,6 +24,6 @@
 
 $string['pluginname'] = 'Syntax Highlighter - Norsk';
 $string['dialogboxtitle'] = 'Kode visning';
-$string['firstparagraph'] = 'Legg til kode-bit og velg språket for koden';
+$string['optionslabel'] = 'Velg programmeringsspråk';
 $string['submitbutton'] = 'Sett inn kode';
 

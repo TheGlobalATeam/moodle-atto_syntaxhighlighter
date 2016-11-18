@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//Might need this line;  defined('MOODLE_INTERNAL') || die();  
+defined('MOODLE_INTERNAL') || die();  
 
 /**
  * Initialise the js strings required for this module.
@@ -30,7 +30,13 @@
 function atto_syntaxhighlighter_strings_for_js() {
     global $PAGE;
 
-    $PAGE->requires->strings_for_js('dialogboxtitle', 'firstparagraph', 'submitbutton');
+    /**
+    *	Library strings to be globalized on the dialog box
+    */
+    $PAGE->requires->strings_for_js(array('dialogboxtitle', 
+    									  'optionslabel', 
+										  'submitbutton'),
+    								'atto_syntaxhighlighter');
 }
 
 

@@ -33,7 +33,11 @@ var SELECTORS = {
     CODEAREA: '.atto_syntaxhighlighter_codearea'
 };
 var TEMPLATE = '<form class="atto_form">' +
-                    '<label for="{{elementid}}_atto_syntaxhighlighter_codearea">Some label</label>' +
+                    /**
+                     * The labels in the dialog box is globalized with language library files, 
+                     * using get_string 
+                     */  
+                    '<label for="{{elementid}}_atto_syntaxhighlighter_codearea">{{get_string "optionslabel" component}}</label>' +
                     '<select class="language">' +
                         '<option value="c">C</option>' +
                         '<option value="cpp">C++</option>' +
@@ -46,7 +50,11 @@ var TEMPLATE = '<form class="atto_form">' +
                     '<textarea class="fullwidth code {{style.CODEAREA}}" rows="12"></textarea><br>' +
                     '<div class="mdl-align">' +
                         '<br>' +
-                        '<button type="submit" class="submit">Add codesnippet</button>' +
+                        /**
+                        * The labels in the dialog box is globalized with language library files, 
+                        * using get_string 
+                        */  
+                        '<button type="submit" class="submit">{{get_string "submitbutton" component}}</button>' +
                     '</div>' +
                 '</form>';
 
@@ -115,7 +123,11 @@ var logic = {
         }
 
         var dialogue = this.getDialogue({
-            headerContent: 'Some header content', //M.util.get_string('Add code snippet', COMPONENTNAME),
+            /**
+            * The headerContent is globalized with language library files, 
+            * using get_string 
+            */
+            headerContent: M.util.get_string('dialogboxtitle', COMPONENTNAME),
             focusAfterHide: true,
             focusOnShowSelector: SELECTORS.CODEAREA
         });
@@ -123,7 +135,6 @@ var logic = {
         dialogue.set('bodyContent', this._getDialogueContent());
         dialogue.show();
     },
-
     /**
      * Display the syntax-highlighter editor.
      * The callback from clicking the submit button.

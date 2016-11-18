@@ -23,3 +23,6 @@
  */
 
 $string['pluginname'] = 'Syntax Highlighter';
+$string['dialogboxtitle'] = 'Code syntax highlighting';
+$string['optionslabel'] = 'Add code and select code-language';
+$string['submitbutton'] = 'Insert code with highlighting';
